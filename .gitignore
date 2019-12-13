@@ -34,3 +34,9 @@ sysinfo.txt
 # Builds
 *.apk
 *.unitypackage
+
+#Google cardboard
+Assets/GoogleVR/Beta/Demos.meta
+Assets/GoogleVR/Beta/Demos/*
+Assets/GoogleVR/Demos.meta
+Assets/GoogleVR/Demos/*
