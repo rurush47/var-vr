@@ -40,3 +40,6 @@ Assets/GoogleVR/Beta/Demos.meta
 Assets/GoogleVR/Beta/Demos/*
 Assets/GoogleVR/Demos.meta
 Assets/GoogleVR/Demos/*
+
+#JetBrains
+.idea/*
