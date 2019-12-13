@@ -4,5 +4,8 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/Market.unity
+    guid: 33ea06412f9423e4a9bd5d4d065de392
   m_configObjects: {}
