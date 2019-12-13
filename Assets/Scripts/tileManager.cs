@@ -22,32 +22,25 @@ public class tileManager : MonoBehaviour
       activeTiles = new List<GameObject>();
       playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
 
+      GameObject tile = null;
       for(int i = 0; i < amntOfTiles; i++){
-        SpawnTile();
+        tile = SpawnTile();
       }
 
+      AssignSpawnedTiles(tile);
     }
 
-    // Update is called once per frame
-    void Update()
+    private void AssignSpawnedTiles(GameObject go)
     {
-      if(playerTransform.position.z - safeZone > (spawnZ - amntOfTiles*tileLength)){
-        SpawnTile();
-        DeleteTile();
+      if (go == null)
+      {
+        return;
       }
-    }
-
-    private void SpawnTile(){
-      GameObject go;
-      go = Instantiate(tilePrefabs[RandomPrefabInd()]) as GameObject;
-      go.transform.SetParent(transform);
-      go.transform.position = Vector3.forward*spawnZ;
-      spawnZ += tileLength;
-
+      
       int i = 0;
       foreach (Transform child in go.gameObject.transform)
       {
-        gameManager.tracksPositions[i] = child;
+        gameManager.tracksPositions[i] = child.position;
         i++;
 
         if (i > 2)
@@ -60,8 +53,27 @@ public class tileManager : MonoBehaviour
       var tmp = gameManager.tracksPositions[0];
       gameManager.tracksPositions[0] = gameManager.tracksPositions[1];
       gameManager.tracksPositions[1] = tmp;
-      
+    }
+    
+    // Update is called once per frame
+    void Update()
+    {
+      if(playerTransform.position.z - safeZone > (spawnZ - amntOfTiles*tileLength)){
+        SpawnTile();
+        DeleteTile();
+      }
+    }
+
+    private GameObject SpawnTile(){
+      GameObject go;
+      go = Instantiate(tilePrefabs[RandomPrefabInd()]) as GameObject;
+      go.transform.SetParent(transform);
+      go.transform.position = Vector3.forward*spawnZ;
+      spawnZ += tileLength;
+
       activeTiles.Add(go);
+
+      return go;
     }
 
     private void DeleteTile(){

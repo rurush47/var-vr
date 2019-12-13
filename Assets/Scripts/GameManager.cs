@@ -24,7 +24,7 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private Player player;
 
-    public Transform[] tracksPositions;
+    public Vector3[] tracksPositions;
 
     private int currentTrackIndex = 1;
 
@@ -37,7 +37,7 @@ public class GameManager : MonoBehaviour
 
         currentTrackIndex--;
 
-        return tracksPositions[currentTrackIndex].position - tracksPositions[currentTrackIndex + 1].position;
+        return tracksPositions[currentTrackIndex] - tracksPositions[currentTrackIndex + 1];
     }
 
     private Vector3 GetRightDiff()
@@ -49,7 +49,7 @@ public class GameManager : MonoBehaviour
 
         currentTrackIndex++;
 
-        return tracksPositions[currentTrackIndex].position - tracksPositions[currentTrackIndex - 1].position;
+        return tracksPositions[currentTrackIndex] - tracksPositions[currentTrackIndex - 1];
     }
 
     public void MovePlayerLeft()
