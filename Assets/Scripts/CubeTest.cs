@@ -1,13 +1,13 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class CubeTest : MonoBehaviour
 {
     private Material material;
+    private GameManager gameManager;
     void Start()
     {
         material = GetComponent<MeshRenderer>().material;
+        gameManager = GameManager.Instance;
     }
 
     public void SetColor(string color)
@@ -22,7 +22,7 @@ public class CubeTest : MonoBehaviour
                 uColor = Color.yellow;
                 break;
         }
-        
+
         material.color = uColor;
     }
 }
