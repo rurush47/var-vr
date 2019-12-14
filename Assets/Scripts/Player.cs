@@ -26,5 +26,10 @@ namespace DefaultNamespace
                 timeSinceLastShake = Time.unscaledTime;
             }
         }
+
+        private void OnTriggerEnter(Collider other)
+        {
+            Debug.Log(other.gameObject.name);
+        }
     }
 }
