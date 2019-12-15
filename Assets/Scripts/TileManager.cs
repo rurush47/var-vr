@@ -107,4 +107,13 @@ public class TileManager : MonoBehaviour
         lastPrefabInd = randInd;
         return randInd;
     }
+
+    #region ObjectsOnTile
+
+    private void SpawnObjectsOnTile()
+    {
+        
+    }
+
+    #endregion
 }
