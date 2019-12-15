@@ -54,11 +54,11 @@ public class GameManager : MonoBehaviour
 
     public void MovePlayerLeft()
     {
-        player.Move(-GetLeftDiff());
+        player.Move(GetLeftDiff());
     }
 
     public void MovePlayerRight()
     {
-        player.Move(-GetRightDiff());
+        player.Move(GetRightDiff());
     }
 }

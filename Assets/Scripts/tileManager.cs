@@ -6,10 +6,12 @@ public class tileManager : MonoBehaviour
 {
   public GameObject[] tilePrefabs;
   private Transform playerTransform;
-  private float spawnZ = -10.0f;
-  private float tileLength = 10.0f;
-  private int amntOfTiles = 3;
-  private float safeZone = 15.0f;
+  [SerializeField] private float spawnZ = -10.0f;
+  [SerializeField] private float tileLength = 36;
+  [SerializeField]private int amntOfTiles = 3;
+  [SerializeField] private float safeZone = 15.0f;
+  [SerializeField] private int bufferLength = 2;
+  [SerializeField] private int aheadBufferLength = 2;
   private int lastPrefabInd = 0;
   private GameManager gameManager;
 
@@ -23,7 +25,7 @@ public class tileManager : MonoBehaviour
       playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
 
       GameObject tile = null;
-      for(int i = 0; i < amntOfTiles; i++){
+      for(int i = 0; i < aheadBufferLength; i++){
         tile = SpawnTile();
       }
 
@@ -50,15 +52,15 @@ public class tileManager : MonoBehaviour
       }
       
       //TODO hack XD
-      var tmp = gameManager.tracksPositions[0];
-      gameManager.tracksPositions[0] = gameManager.tracksPositions[1];
-      gameManager.tracksPositions[1] = tmp;
+//      var tmp = gameManager.tracksPositions[0];
+//      gameManager.tracksPositions[0] = gameManager.tracksPositions[1];
+//      gameManager.tracksPositions[1] = tmp;
     }
     
     // Update is called once per frame
     void Update()
     {
-      if(playerTransform.position.z - safeZone > (spawnZ - amntOfTiles*tileLength)){
+      if(playerTransform.position.z - safeZone > (spawnZ - aheadBufferLength*tileLength)){
         SpawnTile();
         DeleteTile();
       }
@@ -77,8 +79,11 @@ public class tileManager : MonoBehaviour
     }
 
     private void DeleteTile(){
-      Destroy(activeTiles[0]);
-      activeTiles.RemoveAt(0);
+      if (activeTiles.Count > bufferLength)
+      {
+        Destroy(activeTiles[0]);
+        activeTiles.RemoveAt(0); 
+      }
     }
 
     private int RandomPrefabInd(){
