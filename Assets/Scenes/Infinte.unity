@@ -551,6 +551,10 @@ MonoBehaviour:
   safeZone: 1
   bufferLength: 3
   aheadBufferLength: 2
+  spawnItemPrefabs:
+  - {fileID: 153354393543422015, guid: 7c79d5b98a38b82429431716c4cef8f3, type: 3}
+  - {fileID: 1490744225792304168, guid: 5af1392bacfd8a04fbceb849bdd869f2, type: 3}
+  - {fileID: 4006260777460730461, guid: bd0aff6c8e2836143b278f82015a60cc, type: 3}
 --- !u!4 &430835836
 Transform:
   m_ObjectHideFlags: 0
@@ -1301,6 +1305,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: MineTile
+      objectReference: {fileID: 0}
+    - target: {fileID: 4019592615987811836, guid: 393a198cda0128d41aa524528a5529ab,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4279517487931339683, guid: 393a198cda0128d41aa524528a5529ab,
         type: 3}

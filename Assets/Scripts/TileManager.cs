@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class TileManager : MonoBehaviour
@@ -16,6 +17,7 @@ public class TileManager : MonoBehaviour
     private GameManager gameManager;
 
     private List<GameObject> activeTiles;
+    private TileGrid tileGrid;
 
     // Start is called before the first frame update
     private void Start()
@@ -24,6 +26,8 @@ public class TileManager : MonoBehaviour
 
         activeTiles = new List<GameObject>();
         playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
+
+        tileGrid = new TileGrid(3, 9, tileLength);
 
         GameObject tile = null;
         for (int i = 0; i < aheadBufferLength; i++)
@@ -79,11 +83,24 @@ public class TileManager : MonoBehaviour
 
         activeTiles.Add(go);
 
+        SpawnObjectsOnTile(tileGrid);
+        
         return go;
     }
 
     private void DeleteTile()
     {
+
+        if (tileItems.ContainsKey(activeTiles[0]))
+        {
+            foreach (var item in tileItems[activeTiles[0]])
+            {
+                Destroy(item);   
+            }
+
+            tileItems.Remove(activeTiles[0]);    
+        }
+            
         if (activeTiles.Count > bufferLength)
         {
             Destroy(activeTiles[0]);
@@ -110,9 +127,64 @@ public class TileManager : MonoBehaviour
 
     #region ObjectsOnTile
 
-    private void SpawnObjectsOnTile()
+    private Dictionary<GameObject, List<GameObject>> tileItems = new Dictionary<GameObject, List<GameObject>>();
+
+    [SerializeField] private GameObject[] spawnItemPrefabs;
+    public class TileGrid
     {
+        [SerializeField] private float tileXOffset = -3.5f;
         
+        public Vector3[,] posArray;
+        public TileGrid(int x, int z, float tileLength)
+        {
+            float tileDiff = tileLength / z;
+            
+            posArray = new Vector3[x, z];
+            for (int i = 0; i < posArray.GetLength(0); i++)
+            {
+                for (int j = 0; j < posArray.GetLength(1); j++)
+                {
+                    posArray [i, j] = new Vector3(
+                        (i-1)*tileXOffset,
+                        0 ,
+                        tileDiff/2 - (tileDiff - j*tileDiff));
+                }
+            }
+            
+        }
+    }
+    
+    private void SpawnObjectsOnTile(TileGrid tileGrid)
+    {
+        GameObject goPrefab = new GameObject();
+    
+        for (int j = 0; j < tileGrid.posArray.GetLength(1); j+=3)
+        {
+            //choose random track
+            int i = Random.Range(0, tileGrid.posArray.GetLength(0));
+            
+            //choose random item to spawn
+            GameObject randomItem = spawnItemPrefabs[Random.Range(0, spawnItemPrefabs.Length)];
+
+            GameObject newObj = Instantiate(randomItem);
+
+            newObj.transform.position = new Vector3(
+                tileGrid.posArray[i, j + 1].x,
+                newObj.transform.position.y,
+                (spawnZ - tileLength) + tileGrid.posArray[i, j].z);
+            
+            //not very tidy - buut this is fast programming - assign object to the tile
+            var tile = activeTiles.Last();
+            if (tileItems.ContainsKey(tile))
+            {
+                tileItems[tile].Add(newObj);
+            }
+            else
+            {
+                tileItems.Add(tile, new List<GameObject>());
+                tileItems[tile].Add(newObj);
+            }
+        }
     }
 
     #endregion
