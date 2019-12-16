@@ -1,5 +1,6 @@
 using System;
 using DG.Tweening;
+using TMPro;
 using UnityEngine;
 
 namespace DefaultNamespace
@@ -9,15 +10,25 @@ namespace DefaultNamespace
         [SerializeField] private float speed = 0.2f;
         [SerializeField] private float MinShakeInterval = 0.2f;
         [SerializeField] private float sqrShakeDetectionThreshold = 3.6f;
+<<<<<<< HEAD
         
         [Header("duck")] 
+=======
+
+        [Header("Duck")] 
+>>>>>>> ba704dec8ba96ae4e0a1425e9c8d69176b7328ba
         [SerializeField] private float duckTime;
         [SerializeField] private float duckCameraPos = -0.43f;
-        [SerializeField] private GameObject cameraObj;
         [SerializeField] private float newColliderHeight;
         private float initColliderHeight;
+
+
+        [Header("Refs")]
+        [SerializeField] private GameObject cameraObj;
+        [SerializeField] private TextMeshProUGUI scoreText;
         
         private float timeSinceLastShake;
+
         private CapsuleCollider capsuleCollider;
         private float timeCheck = 5.0f; //increment speed this often
         private float timeVar = 0.0f;
@@ -58,7 +69,27 @@ namespace DefaultNamespace
 
         private void OnTriggerEnter(Collider other)
         {
-            Debug.Log(other.gameObject.name);
+            if (other.gameObject.layer == 8)
+            {
+                Score(other.gameObject);
+            }
+            if (other.gameObject.layer == 9)
+            {
+                GameOver();
+            }
+        }
+
+        private int score = 0;
+        private void Score(GameObject gameObject)
+        {
+            score++;
+            scoreText.text = score.ToString(); 
+            gameObject.transform.parent.DOScale(Vector3.zero, 0.1f).SetEase(Ease.InSine);
+        }
+
+        private void GameOver()
+        {
+            Application.Quit();
         }
 
         //should be FSM here
