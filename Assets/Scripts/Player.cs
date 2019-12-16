@@ -100,7 +100,7 @@ namespace DefaultNamespace
             }
             
             gameOver = true;
-            scoreText.text = "Game Over ! \n Score: " + score;
+            scoreText.text = "GameOver! \n Score: " + score;
             GameManager.Instance.GameOver();
         }
 
