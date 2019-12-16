@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using DefaultNamespace;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -23,7 +24,9 @@ public class GameManager : MonoBehaviour
     #endregion
 
     [SerializeField] private Player player;
-
+    [SerializeField] private GameObject resetButton;
+    [SerializeField] private GameObject dirButtons;
+    
     public Vector3[] tracksPositions;
 
     private int currentTrackIndex = 1;
@@ -60,5 +63,16 @@ public class GameManager : MonoBehaviour
     public void MovePlayerRight()
     {
         player.Move(GetRightDiff());
+    }
+
+    public void GameOver()
+    {
+        dirButtons.SetActive(false);
+        resetButton.SetActive(true);
+    }
+
+    public void ReloadScene()
+    {
+        SceneManager.LoadScene(0);
     }
 }

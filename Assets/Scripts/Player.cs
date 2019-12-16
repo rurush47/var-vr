@@ -22,7 +22,7 @@ namespace DefaultNamespace
         [Header("Refs")]
         [SerializeField] private GameObject cameraObj;
         [SerializeField] private TextMeshProUGUI scoreText;
-        
+
         private float timeSinceLastShake;
 
         private CapsuleCollider capsuleCollider;
@@ -44,6 +44,10 @@ namespace DefaultNamespace
 
         private void Update()
         {
+            if (gameOver)
+            {
+                return;
+            }
             
             transform.position += new Vector3(0, 0, speed);
             
@@ -85,9 +89,12 @@ namespace DefaultNamespace
             gameObject.transform.parent.DOScale(Vector3.zero, 0.1f).SetEase(Ease.InSine);
         }
 
+        private bool gameOver;
         private void GameOver()
         {
-            Application.Quit();
+            gameOver = true;
+            scoreText.text = "Game Over ! \n Score: " + score;
+            GameManager.Instance.GameOver();
         }
 
         //should be FSM here
