@@ -7,6 +7,7 @@ namespace DefaultNamespace
 {
     public class Player : MonoBehaviour
     {
+        [SerializeField] private bool godMode;
         [SerializeField] private float speed = 0.2f;
         [SerializeField] private float MinShakeInterval = 0.2f;
         [SerializeField] private float sqrShakeDetectionThreshold = 3.6f;
@@ -35,6 +36,7 @@ namespace DefaultNamespace
         {
             capsuleCollider = GetComponent<CapsuleCollider>();
             initColliderHeight = capsuleCollider.height;
+            Brake.onBrake += () => speed -= speedIncrease;
         }
 
         public void Move(Vector3 moveVector)
@@ -92,6 +94,11 @@ namespace DefaultNamespace
         private bool gameOver;
         private void GameOver()
         {
+            if (godMode)
+            {
+                return;
+            }
+            
             gameOver = true;
             scoreText.text = "Game Over ! \n Score: " + score;
             GameManager.Instance.GameOver();
