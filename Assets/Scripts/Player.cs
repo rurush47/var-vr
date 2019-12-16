@@ -9,7 +9,7 @@ namespace DefaultNamespace
         [SerializeField] private float speed = 0.2f;
         [SerializeField] private float MinShakeInterval = 0.2f;
         [SerializeField] private float sqrShakeDetectionThreshold = 3.6f;
-
+        
         [Header("duck")] 
         [SerializeField] private float duckTime;
         [SerializeField] private float duckCameraPos = -0.43f;
@@ -19,6 +19,8 @@ namespace DefaultNamespace
         
         private float timeSinceLastShake;
         private CapsuleCollider capsuleCollider;
+        private float timeCheck = 5.0f; //increment speed this often
+        private float timeVar = 0.0f;
 
         private void Start()
         {
@@ -33,6 +35,7 @@ namespace DefaultNamespace
 
         private void Update()
         {
+            
             transform.position += new Vector3(0, 0, speed);
             
             if ((Input.acceleration.sqrMagnitude >= sqrShakeDetectionThreshold
@@ -42,6 +45,15 @@ namespace DefaultNamespace
                 timeSinceLastShake = Time.unscaledTime;
                 Duck();
             }
+            timeVar += Time.deltaTime;
+            if(timeVar >= timeCheck) IncrementSpeed();
+        }
+
+        [SerializeField] private float speedIncrease = 0.05f;
+        private void IncrementSpeed()
+        {
+            speed += speedIncrease;
+            timeVar = 0;
         }
 
         private void OnTriggerEnter(Collider other)
