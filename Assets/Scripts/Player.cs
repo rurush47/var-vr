@@ -10,13 +10,9 @@ namespace DefaultNamespace
         [SerializeField] private float speed = 0.2f;
         [SerializeField] private float MinShakeInterval = 0.2f;
         [SerializeField] private float sqrShakeDetectionThreshold = 3.6f;
-<<<<<<< HEAD
-        
-        [Header("duck")] 
-=======
 
-        [Header("Duck")] 
->>>>>>> ba704dec8ba96ae4e0a1425e9c8d69176b7328ba
+        [Header("Duck")]
+
         [SerializeField] private float duckTime;
         [SerializeField] private float duckCameraPos = -0.43f;
         [SerializeField] private float newColliderHeight;
@@ -30,7 +26,9 @@ namespace DefaultNamespace
         private float timeSinceLastShake;
 
         private CapsuleCollider capsuleCollider;
-        private float timeCheck = 5.0f; //increment speed this often
+        
+        [Header("Speed Increment")]
+        [SerializeField] private float timeCheck = 5.0f;
         private float timeVar = 0.0f;
 
         private void Start()
@@ -64,7 +62,7 @@ namespace DefaultNamespace
         private void IncrementSpeed()
         {
             speed += speedIncrease;
-            timeVar = 0;
+            timeVar = 0.0f;
         }
 
         private void OnTriggerEnter(Collider other)
